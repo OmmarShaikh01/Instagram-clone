@@ -6,6 +6,7 @@ from typing import Optional
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -19,6 +20,7 @@ class UserRelationshipView(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     queryset = UserRelationshipModel.objects.all()
     serializer_class = UserRelationshipModelSerializer
+    parser_classes = [JSONParser]
 
     @action(detail=True, methods=["POST"], url_name="send_friend_req")
     def send_friend_req(self, request: Request, pk: Optional[str] = None):
