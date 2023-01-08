@@ -1,13 +1,10 @@
 import os
 
-from dynaconf import Dynaconf
-from dynaconf import Validator
+from dynaconf import Dynaconf, Validator
 
-_VALIDATORS = (
-    Validator(*("DJANGO_SECRET_KEY", "DJANGO_DEBUG"), must_exist=True),
-)
+_VALIDATORS = (Validator(*("DJANGO_SECRET_KEY", "DJANGO_DEBUG"), must_exist=True),)
 
-# Main Region ----------------------------------------------------------------------------------------------------------
+# Main Region ----------------------------------------
 ROOT = os.path.dirname(__file__)
 SETTINGS = Dynaconf(
     load_dotenv=False,

@@ -4,10 +4,10 @@ App Config
 from django.apps import AppConfig
 
 
-class UserConfig(AppConfig):
+class UserRelationshipConfig(AppConfig):
     """
-    User App Config
+    User Relationship App Config
     """
 
     default_auto_field = "django.db.models.BigAutoField"
-    name = "instagram_clone.user"
+    name = "instagram_clone.user_relationship"

@@ -11,15 +11,27 @@ python = ">=3.10,<3.12"
 django = "^4.1.4"
 djangorestframework = "^3.14.0"
 dynaconf = "^3.1.11"
+django-filter = "^22.1"
+pillow = "^9.4.0"
+loguru = "^0.6.0"
 
 
 [tool.poetry.group.dev.dependencies]
 nox = "^2022.11.21"
-coverage = { extras = ["toml"], version = "^6.5.0" }
+coverage = { extras = ["toml"], version = "^7.0.1" }
 black = "^22.12.0"
 pylint = "^2.15.8"
 isort = "^5.10.1"
 python-dotenv = { extras = ["cli"], version = "^0.21.0" }
+pytest = "^7.2.0"
+pytest-mock = "^3.10.0"
+pytest-django = "^4.5.2"
+pytest-sugar = "^0.9.6"
+pytest-cases = "^3.6.13"
+pytest-cov = "^4.0.0"
+model-bakery = "^1.9.0"
+passlib = "^1.7.4"
+sphinx = "^6.1.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -46,7 +58,7 @@ supported_extensions = ["py"]
 --check = "no"
 diff = "no"
 color = true
-line-length = 100
+line-length = 120
 exclude = '/(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist|__pypackages__|\.pyi)/'
 include = '\.py?$'
 target-version = ["py310"]
@@ -55,9 +67,9 @@ target-version = ["py310"]
 [tool.pylint.main]
 extension-pkg-allow-list = []
 fail-under = 1000
-ignore = [".github", ".nox", ".venv", ".pytest_cache", "dist", "docs"]
+ignore = [".github", ".nox", ".venv", ".pytest_cache", "dist", "docs", "manage.py", "tests"]
 ignore-paths = '/(\.direnv|\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|venv|\.svn|_build|buck-out|build|dist|__pypackages__|\.pyi)/'
-ignore-patterns = '(.*temp\.py$)'
+ignore-patterns = '(.*temp\.py$|.*manage\.py$|.*lint_project\.py$|.*run_server\.py$)'
 jobs = 0
 limit-inference-results = 100
 persistent = true
@@ -114,7 +126,7 @@ overgeneral-exceptions = ["BaseException", "Exception"]
 ignore-long-lines = "^\\s*(# )?<?https?://\\S+>?$"
 indent-after-paren = 4
 indent-string = "    "
-max-line-length = 100
+max-line-length = 120
 
 
 [tool.pylint.imports]
@@ -145,6 +157,7 @@ disable = [
     "unnecessary-lambda",
     "too-many-statements",
     "unused-argument",
+    "use-dict-literal"
 ]
 enable = ["c-extension-no-member"]
 
@@ -160,7 +173,7 @@ never-returning-functions = ["sys.exit", "argparse.parse_error"]
 
 [tool.pylint.reports]
 evaluation = "max(0, 0 if fatal else 100.0 - ((float(5 * error + warning + refactor + convention) / statement) * 100))"
-output-format = "text:./tests/linter_output.txt,colorized"
+output-format = "text:./linter_output.txt,colorized"
 reports = false
 score = true
 
@@ -196,3 +209,63 @@ callbacks = ["cb_", "_cb", "call_on"]
 dummy-variables-rgx = "_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"
 ignored-argument-names = "_.*|^ignored_|^unused_"
 redefining-builtins-modules = ["six.moves", "past.builtins", "future.builtins", "builtins", "io"]
+
+
+[tool.pytest.ini_options]
+django_settings_module = "instagram_clone.settings"
+testpaths = ['tests/*']
+addopts = [
+    "--cache-clear",
+    "--color=yes",
+    "--code-highlight=yes",
+    "--disable-warnings",
+    "--last-failed",
+    "--no-header",
+    "--durations=10",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+console_output_style = "progress"
+cache_dir = "tests/.pytest_cache"
+
+
+[tool.coverage.run]
+source = ['instagram_clone', 'configs']
+branch = true
+data_file = 'tests/coverage/.coverage'
+omit = [
+    'tests/*',
+    'manage.py',
+    "instagram_clone/settings.py",
+    "instagram_clone/asgi.py",
+    "instagram_clone/wsgi.py",
+    "instagram_clone/urls.py",
+    "instagram_clone/*/apps.py",
+    "instagram_clone/*/admin.py",
+]
+
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    'pragma: no cover',
+    # Don't complain about missing debug-only code:
+    'def __repr__',
+    'if self\.debug',
+    # Don't complain if tests don't hit defensive assertion code:
+    'raise AssertionError',
+    'raise NotImplementedError',
+    # Don't complain if non-runnable code isn't run:
+    'if 0:',
+    'if __name__ == .__main__.:',
+    # import ignort
+    "from",
+    "import",
+]
+ignore_errors = false
+skip_empty = true
+
+
+[tool.coverage.html]
+directory = 'tests/coverage/html'
+skip_empty = true

@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'instagram_clone.settings')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "instagram_clone.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -18,5 +18,47 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    # Available subcommands:
+    #
+    # [auth]
+    #     changepassword
+    #     createsuperuser
+    #
+    # [contenttypes]
+    #     remove_stale_contenttypes
+    #
+    # [django]
+    #     check
+    #     compilemessages
+    #     createcachetable
+    #     dbshell
+    #     diffsettings
+    #     dumpdata
+    #     flush
+    #     inspectdb
+    #     loaddata
+    #     makemessages
+    #     makemigrations
+    #     migrate
+    #     optimizemigration
+    #     sendtestemail
+    #     shell
+    #     showmigrations
+    #     sqlflush
+    #     sqlmigrate
+    #     sqlsequencereset
+    #     squashmigrations
+    #     startapp
+    #     startproject
+    #     test
+    #     testserver
+    #
+    # [sessions]
+    #     clearsessions
+    #
+    # [staticfiles]
+    #     collectstatic
+    #     findstatic
+    #     runserver
     main()
