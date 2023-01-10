@@ -6,10 +6,11 @@ from django.contrib import admin
 from django.urls import path
 
 from instagram_clone import settings
+from instagram_clone.content.urls import url_path as content_app_urls
 from instagram_clone.user.urls import url_path as user_app_urls
 from instagram_clone.user_relationship.urls import url_path as user_relationship_app_urls
 
-urlpatterns = [path("admin/", admin.site.urls), *user_app_urls, *user_relationship_app_urls]
+urlpatterns = [path("admin/", admin.site.urls), *user_app_urls, *user_relationship_app_urls, *content_app_urls]
 
 # adds static file URIs in debug
 if settings.DEBUG:

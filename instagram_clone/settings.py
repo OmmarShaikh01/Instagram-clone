@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Custom Apps
     "instagram_clone.user",
     "instagram_clone.user_relationship",
+    "instagram_clone.content",
 ]
 
 MIDDLEWARE = [
